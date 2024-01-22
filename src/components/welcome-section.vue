@@ -5,11 +5,11 @@
     <div class="content-container">
       <h1>Hoş Geldiniz</h1>
       <p>Milyonlarca film, TV şovu ve keşfedilecek kişi. Şimdi keşfedin.</p>
-      <div >
+      <div>
         <form class="search-container" @submit.prevent="search">
-        <input type="text" v-model="searchQuery" placeholder="Film, dizi, kişi arayın..." />
-        <button type="submit">Ara</button>
-      </form>
+          <input type="text" v-model="searchQuery" placeholder="Film, dizi, kişi arayın..." />
+          <button type="submit">Ara</button>
+        </form>
       </div>
     </div>
   </section>
@@ -24,7 +24,9 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push({ name: 'search-results', params: { query: this.searchQuery } });
+      this.$router.push({ path: "/search-results" });
+      this.$store.commit('setQuery', this.searchQuery);
+      this.$store.dispatch("performSearch");
     },
   },
 };
@@ -43,9 +45,7 @@ export default {
 .background-image {
   width: 100%;
   height: 100%;
-  /* Fotoğrafın tam boyutunu alması için */
   object-fit: cover;
-  /* Aspect ratio'yu korumak için */
   position: absolute;
   top: 0;
   left: 0;
@@ -65,7 +65,6 @@ export default {
 
 .content-container {
   padding: 100px 20px;
-  /* İstediğiniz padding değerlerini ayarlayabilirsiniz. */
 }
 
 h1 {
@@ -101,5 +100,6 @@ button {
   border: none;
   cursor: pointer;
   border-radius: 50px;
-}</style>
+}
+</style>
   

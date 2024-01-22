@@ -1,15 +1,23 @@
 <template>
     <div>
-        <movie-list title="Popüler Filmler" api-url="https://api.themoviedb.org/3/movie/popular?language=en-US&page=1" />
+        <card-list title="Popüler Filmler" :movies="movies"  />
     </div>
 </template>
   
 <script>
-import MovieList from '@/components/movie-list.vue';
+import CardList from '@/components/card-list.vue';
 
 export default {
     components: {
-        MovieList,
+        CardList,
+    },
+    computed: {
+        movies() {
+            return this.$store.getters.getTrendMovies;
+        },
+    },
+    created() {
+        this.$store.dispatch('fetchTrendMovies');
     },
 };
 </script>

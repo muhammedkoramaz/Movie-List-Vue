@@ -1,15 +1,15 @@
 <template>
     <div class="trend-movies-list">
         <div class="row">
-            <h2>Trend Filmler</h2>
+            <h2>İzlemek Ücretsiz</h2>
             <div class="button-container">
-                <div @click="showTrending('day')" :class="{ active: trendingTime === 'day' }"><span>Günlük</span></div>
-                <div @click="showTrending('week')" :class="{ active: trendingTime === 'week' }"><span>Haftalık</span></div>
+                <div @click="dispatchBtn('movie')" :class="{ active: Type === 'movie' }"><span>Movie</span></div>
+                <div @click="dispatchBtn('tv')" :class="{ active: Type === 'tv' }"><span>TV</span></div>
             </div>
         </div>
         <div class="movie-list-container">
             <div class="movie-list" ref="movieList">
-                <div v-for="movie in trendingAll" :key="movie.id" class="movie-item">
+                <div v-for="movie in forFrees" :key="movie.id" class="movie-item">
                     <movie-card class="card" :movie="movie" />
                 </div>
             </div>
@@ -22,30 +22,50 @@ import MovieCard from "@/components/movie-card-without-bg.vue";
 export default {
     data() {
         return {
-            trendingTime: 'day',
+            Type: 'movie',
+            forFree: [],
         };
-    },
-    computed: {
-        trendingAll() {
-            return this.trendingTime == 'day'
-                ? this.$store.getters.getTrendingAllDay
-                : this.$store.getters.getTrendingAllWeek;
-        },
     },
 
     components: {
         MovieCard,
     },
     methods: {
-        showTrending(time) {
-            this.trendingTime = time;
-            console.log(this.trendingTime);
+        dispatchBtn(type) {
+            this.Type = type;
+            switch (type) {
+                case 'tv':
+                    this.$store.dispatch('fetchFreeTV').then(() => {
+                        this.forFree = this.$store.getters.getFreeTV;
+                    });
+                    break;
+                case 'movie':
+                    this.$store.dispatch('fetchFreeMovie').then(() => {
+                        this.forFree = this.$store.getters.getFreeMovie;
+                    });
+                    break;
+                default:
+                    break;
+            }
         },
     },
-    created() {
-        this.$store.dispatch('fetchTrendingAllDay')
-        this.$store.dispatch('fetchTrendingAllWeek');
+    computed: {
+        forFrees: {
+            get() {
+                return this.Type === 'tv'
+                    ? this.$store.getters.getFreeTV
+                    : this.$store.getters.getFreeMovie;
+            },
+            set() {
+            },
+        },
     },
+
+    created() {
+        this.$store.dispatch('fetchFreeMovie');
+        this.forFrees = this.$store.getters.getFreeMovie;
+
+    }
 };
 </script>
   
@@ -85,6 +105,7 @@ p {
     text-align: left;
     padding-top: 10px;
 }
+
 .card {
     width: 150px;
     margin-right: 20px;

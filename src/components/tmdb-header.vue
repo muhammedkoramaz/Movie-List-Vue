@@ -70,7 +70,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-left: 45px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .dropdown {

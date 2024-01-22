@@ -1,15 +1,20 @@
 <template>
     <div class="trend-movies-list">
         <div class="row">
-            <h2>Trend Filmler</h2>
+            <h2>Popüler Olanlar</h2>
             <div class="button-container">
-                <div @click="showTrending('day')" :class="{ active: trendingTime === 'day' }"><span>Günlük</span></div>
-                <div @click="showTrending('week')" :class="{ active: trendingTime === 'week' }"><span>Haftalık</span></div>
+                <div @click="showPopular('streaming')" :class="{ active: filterName === 'streaming' }"><span>Yayın
+                        Akışı</span></div>
+                <div @click="showPopular('onTv')" :class="{ active: filterName === 'onTv' }"><span>Televizyonda</span></div>
+                <div @click="showPopular('onRent')" :class="{ active: filterName === 'onRent' }"><span>Kiralık</span></div>
+                <div @click="showPopular('onThreath')" :class="{ active: filterName === 'onThreath' }">
+                    <span>Sinemalarda</span>
+                </div>
             </div>
         </div>
         <div class="movie-list-container">
             <div class="movie-list" ref="movieList">
-                <div v-for="movie in trendingAll" :key="movie.id" class="movie-item">
+                <div v-for="movie in whatsPopular" :key="movie.id" class="movie-item">
                     <movie-card class="card" :movie="movie" />
                 </div>
             </div>
@@ -22,34 +27,61 @@ import MovieCard from "@/components/movie-card-without-bg.vue";
 export default {
     data() {
         return {
-            trendingTime: 'day',
+            filterName: 'streaming',
         };
     },
-    computed: {
-        trendingAll() {
-            return this.trendingTime == 'day'
-                ? this.$store.getters.getTrendingAllDay
-                : this.$store.getters.getTrendingAllWeek;
-        },
-    },
-
     components: {
         MovieCard,
     },
     methods: {
-        showTrending(time) {
-            this.trendingTime = time;
-            console.log(this.trendingTime);
+        showPopular(time) {
+            this.filterName = time;
+            switch (time) {
+                case 'onTv':
+                    this.$store.dispatch('fetchOnTv').then(() => {
+                        this.whatsPopular = this.$store.getters.getOnTv;
+                    });
+                    break;
+                case 'streaming':
+                    this.$store.dispatch('fetchWhatsPopular').then(() => {
+                        this.whatsPopular = this.$store.getters.getWhatsPopular;
+                    });
+                    break;
+                case 'onRent':
+                    this.$store.dispatch('fetchForRent').then(() => {
+                        this.whatsPopular = this.$store.getters.getForRent;
+                    });
+                    break;
+                default:
+                    break;
+            }
         },
     },
+    computed: {
+        whatsPopular: {
+            get() {
+                return this.filterName == 'streaming'
+                    ? this.$store.getters.getWhatsPopular
+                    : this.filterName == 'onTv'
+                        ? this.$store.getters.getOnTv
+                        : this.$store.getters.getForRent;
+            },
+            set() {
+            },
+        },
+    },
+
     created() {
-        this.$store.dispatch('fetchTrendingAllDay')
-        this.$store.dispatch('fetchTrendingAllWeek');
+        this.$store.dispatch('fetchWhatsPopular');
+        this.whatsPopular = this.$store.getters.getWhatsPopular;
     },
 };
 </script>
   
 <style scoped>
+h2 {
+    color: #022541;
+}
 .trend-movies-list {
     text-align: left;
     width: 100%;
@@ -85,6 +117,7 @@ p {
     text-align: left;
     padding-top: 10px;
 }
+
 .card {
     width: 150px;
     margin-right: 20px;

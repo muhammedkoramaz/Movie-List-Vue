@@ -12,6 +12,9 @@
     components: {
       PersonList,
     },
+    created() {
+      this.$store.dispatch('fetchPopularPersons');
+    },
   };
   </script>
   
