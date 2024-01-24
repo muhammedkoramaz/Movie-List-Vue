@@ -1,15 +1,23 @@
 <template>
     <div>
-        <movie-list title="Popüler Diziler" api-url="https://api.themoviedb.org/3/tv/popular?language=en-US&page=1" />
+        <card-list title="Popular Diziler" :movies="movies"/>
     </div>
 </template>
   
 <script>
-import MovieList from '@/components/movie-list.vue';
+import CardList from '@/components/card-list.vue';
 
 export default {
     components: {
-        MovieList,
+        CardList,
+    },
+    computed: {
+        movies() {
+            return this.$store.getters.getPopularTv;
+        },
+    },
+    created() {
+        this.$store.dispatch('fetchPopularTv');
     },
 };
 </script>

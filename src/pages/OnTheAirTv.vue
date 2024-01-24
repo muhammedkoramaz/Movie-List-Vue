@@ -1,15 +1,23 @@
 <template>
     <div>
-        <movie-list title="Şu Anda Yayınlanan Diziler" api-url="https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1" />
+        <card-list title="Şu Anda Yayınlanan Diziler" :movies="movies"/>
     </div>
 </template>
   
 <script>
-import MovieList from '@/components/movie-list.vue';
+import CardList from '@/components/card-list.vue';
 
 export default {
     components: {
-        MovieList,
+        CardList,
+    },
+    computed: {
+        movies() {
+            return this.$store.getters.getOnTheAirTv;
+        },
+    },
+    created() {
+        this.$store.dispatch('fetchOnTheAirTv');
     },
 };
 </script>

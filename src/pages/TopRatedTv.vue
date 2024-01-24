@@ -1,15 +1,23 @@
 <template>
     <div>
-        <movie-list title="En Çok Oy Alan Diziler" api-url="https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1" />
+        <card-list title="En Çok Oy Alan Diziler" :movies="movies"/>
     </div>
 </template>
   
 <script>
-import MovieList from '@/components/movie-list.vue';
+import CardList from '@/components/card-list.vue';
 
 export default {
     components: {
-        MovieList,
+        CardList,
+    },
+    computed: {
+        movies() {
+            return this.$store.getters.getTopRatedTv;
+        },
+    },
+    created() {
+        this.$store.dispatch('fetchTopRatedTv');
     },
 };
 </script>

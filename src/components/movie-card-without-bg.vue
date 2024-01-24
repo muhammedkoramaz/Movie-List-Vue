@@ -6,7 +6,7 @@
                 :alt="movie.title" class="movie-poster" />
             <img v-else-if="movie.profile_path == null" src="https://via.placeholder.com/185x278?text=Poster+Yok"
                 :alt="movie.title" class="movie-poster" />
-            <img v-else :src="'https://image.tmdb.org/t/p/w185/' + movie.profile_path" :alt="movie.title"
+            <img v-else :src="'https://image.tmdb.org/t/p/original/' + movie.profile_path" :alt="movie.title"
                 class="movie-poster" />
             <movie-rating class="rating-style" :progress-value="(Number(movie.vote_average) * 10).toFixed()"/>
         </div>
@@ -42,8 +42,6 @@ export default {
 }
 
 .movie-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
     border-radius: 8px;
     text-align: center;
     overflow: hidden;
@@ -51,9 +49,10 @@ export default {
     transition: transform 0.3s ease;
     max-width: fit-content;
     width: 140px;
-    min-height: 400px;
+    height: 320px;
     min-width: 140px;
 }
+
 
 .poster-container {
     position: relative;

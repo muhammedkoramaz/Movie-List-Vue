@@ -62,10 +62,9 @@ export default new Router({
       component: () => import("@/pages/PopularPerson.vue"),
     },
     {
-      path: '/search-results/:query',
+      path: '/search-results',
       name: 'search-results',
       component: () => import('@/pages/SearchResults.vue'),
-      props: true,
     },
   ],
 });

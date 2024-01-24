@@ -1,7 +1,7 @@
 <template>
     <div class="person-list">
       <div v-for="person in persons" :key="person.id" class="person-item">
-        <img :src="'https://image.tmdb.org/t/p/w185/' + person.profile_path" :alt="person.name" class="person-image" />
+        <img :src="'https://image.tmdb.org/t/p/original/' + person.profile_path" :alt="person.name" class="person-image" />
         <div class="person-info">
           <p class="person-name">{{ person.name }}</p>
           <p class="known-for">{{ person.known_for.map(item => item.title).join(', ') }}</p>
@@ -11,33 +11,11 @@
   </template>
   
   <script>
-  import axios from 'axios';
   
   export default {
-    data() {
-      return {
-        persons: [],
-      };
-    },
-    created() {
-      this.fetchPopularPersons();
-    },
-    methods: {
-      async fetchPopularPersons() {
-        try {
-                const options = {
-                    method: 'GET',
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjAxMDcyZjYxMTEyNWYzODUyYmZhMmY2ODQzZmNhYiIsInN1YiI6IjYyMTI0NjEyM2Y0ODMzMDAxYzk1ZDEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PFFarWR4jNmnkrLt0ZH428RZugAjHGOlLEpWKkBxBnk',
-                    },
-                };
-                const response = await axios.get('https://api.themoviedb.org/3/trending/person/day?language=en-US', options);
-                this.persons = response.data.results;
-                console.log(this.movies);
-            } catch (error) {
-                console.error('Hata:', error);
-            }
+    computed: {
+      persons() {
+        return this.$store.getters.getPersons;
       },
     },
   };
@@ -59,7 +37,7 @@
   
   .person-image {
     max-width: 100%;
-    height: auto;
+    height: 300px;
     object-fit: cover;
     border-radius: 8px;
   }
@@ -76,5 +54,30 @@
     font-size: 0.9rem;
     color: #888;
   }
+
+  @media (max-width: 1200px) {
+    .person-item {
+        width: calc(33.3% - 20px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .person-item {
+        width: calc(50% - 20px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .person-item {
+        width: calc(100% - 20px);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .person-item {
+        width: 100%;
+    }
+  }
+
   </style>
   

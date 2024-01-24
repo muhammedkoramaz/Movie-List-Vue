@@ -1,15 +1,23 @@
 <template>
     <div>
-        <movie-list title="Bugün Başlayan Diziler" api-url="https://api.themoviedb.org/3/tv/airing_today?language=en-US&page=1" />
+        <card-list title="Bugün Başlayan Diziler" :movies="movies"/>
     </div>
 </template>
   
 <script>
-import MovieList from '@/components/movie-list.vue';
+import CardList from '@/components/card-list.vue';
 
 export default {
     components: {
-        MovieList,
+        CardList,
+    },
+    computed: {
+        movies() {
+            return this.$store.getters.getAiringTodayTv;
+        },
+    },
+    created() {
+        this.$store.dispatch('fetchAiringTodayTv');
     },
 };
 </script>
