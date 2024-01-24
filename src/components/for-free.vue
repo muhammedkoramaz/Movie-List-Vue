@@ -3,8 +3,8 @@
         <div class="row">
             <h2>İzlemek Ücretsiz</h2>
             <div class="button-container">
-                <div @click="dispatchBtn('movie')" :class="{ active: Type === 'movie' }"><span>Movie</span></div>
-                <div @click="dispatchBtn('tv')" :class="{ active: Type === 'tv' }"><span>TV</span></div>
+                <filter-button v-for="button in buttons" :key="button.filterName" :filterName="button.filterName"
+                    :currentFilter="Type" :buttonText="button.buttonText" @filter-click="dispatchBtn" />
             </div>
         </div>
         <div class="movie-list-container">
@@ -19,16 +19,20 @@
   
 <script>
 import MovieCard from "@/components/movie-card-without-bg.vue";
+import FilterButton from "@/components/filter-button.vue";
+import { FOR_FREE_BUTTONS } from "@/constant/buttons.js";
 export default {
     data() {
         return {
             Type: 'movie',
             forFree: [],
+            buttons: FOR_FREE_BUTTONS,
         };
     },
 
     components: {
         MovieCard,
+        FilterButton,
     },
     methods: {
         dispatchBtn(type) {
@@ -120,6 +124,7 @@ p {
     margin-left: 10px;
 
 }
+
 .button-container {
     display: flex;
     margin-left: 10px;
@@ -157,6 +162,5 @@ p {
     height: fit-content;
     border-radius: 50px;
 }
-
 </style>
   

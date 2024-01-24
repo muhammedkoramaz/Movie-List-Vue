@@ -6,7 +6,7 @@
                 :alt="movie.title" class="movie-poster" />
             <img v-else-if="movie.profile_path == null" src="https://via.placeholder.com/185x278?text=Poster+Yok"
                 :alt="movie.title" class="movie-poster" />
-            <img v-else :src="'https://image.tmdb.org/t/p/w185/' + movie.profile_path" :alt="movie.title"
+            <img v-else :src="'https://image.tmdb.org/t/p/original/' + movie.profile_path" :alt="movie.title"
                 class="movie-poster" />
             <movie-rating class="rating-style" :progress-value="(Number(movie.vote_average) * 10).toFixed()"/>
         </div>

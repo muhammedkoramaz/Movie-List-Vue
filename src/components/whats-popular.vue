@@ -3,13 +3,8 @@
         <div class="row">
             <h2>Popüler Olanlar</h2>
             <div class="button-container">
-                <div @click="showPopular('streaming')" :class="{ active: filterName === 'streaming' }"><span>Yayın
-                        Akışı</span></div>
-                <div @click="showPopular('onTv')" :class="{ active: filterName === 'onTv' }"><span>Televizyonda</span></div>
-                <div @click="showPopular('onRent')" :class="{ active: filterName === 'onRent' }"><span>Kiralık</span></div>
-                <div @click="showPopular('onThreath')" :class="{ active: filterName === 'onThreath' }">
-                    <span>Sinemalarda</span>
-                </div>
+                <filter-button v-for="button in buttons" :key="button.filterName" :filterName="button.filterName"
+                    :currentFilter="filterName" :buttonText="button.buttonText" @filter-click="showPopular" />
             </div>
         </div>
         <div class="movie-list-container">
@@ -24,14 +19,19 @@
   
 <script>
 import MovieCard from "@/components/movie-card-without-bg.vue";
+import FilterButton from "@/components/filter-button.vue";
+import { WHATS_POPULAR_BUTTONS } from "@/constant/buttons.js";
+
 export default {
     data() {
         return {
             filterName: 'streaming',
+            buttons: WHATS_POPULAR_BUTTONS,
         };
     },
     components: {
         MovieCard,
+        FilterButton,
     },
     methods: {
         showPopular(time) {
@@ -82,6 +82,7 @@ export default {
 h2 {
     color: #022541;
 }
+
 .trend-movies-list {
     text-align: left;
     width: 100%;
@@ -132,6 +133,7 @@ p {
     margin-left: 10px;
 
 }
+
 .button-container {
     display: flex;
     margin-left: 10px;
@@ -169,6 +171,5 @@ p {
     height: fit-content;
     border-radius: 50px;
 }
-
 </style>
   

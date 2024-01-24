@@ -5,7 +5,7 @@ import {
   fetchData,
   fetchMovieVideos,
   fetchSearchResults,
-} from "@/utils/fetchData";
+} from "@/services/fetchData";
 
 Vue.use(Vuex);
 
