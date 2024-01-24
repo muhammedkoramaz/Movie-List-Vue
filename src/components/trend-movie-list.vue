@@ -3,8 +3,8 @@
         <div class="row">
             <h2>Trend Filmler</h2>
             <div class="button-container">
-                <div @click="showTrending('day')" :class="{ active: trendingTime === 'day' }"><span>Günlük</span></div>
-                <div @click="showTrending('week')" :class="{ active: trendingTime === 'week' }"><span>Haftalık</span></div>
+                <filter-button v-for="button in buttons" :key="button.filterName" :filterName="button.filterName"
+                    :currentFilter="trendingTime" :buttonText="button.buttonText" @filter-click="showTrending" />
             </div>
         </div>
         <div class="movie-list-container">
@@ -19,10 +19,13 @@
   
 <script>
 import MovieCard from "@/components/movie-card-without-bg.vue";
+import FilterButton from "@/components/filter-button.vue";
+import { TRENDING_BUTTONS } from "@/constant/buttons.js";
 export default {
     data() {
         return {
             trendingTime: 'day',
+            buttons: TRENDING_BUTTONS,
         };
     },
     computed: {
@@ -35,6 +38,7 @@ export default {
 
     components: {
         MovieCard,
+        FilterButton,
     },
     methods: {
         showTrending(time) {
@@ -85,6 +89,7 @@ p {
     text-align: left;
     padding-top: 10px;
 }
+
 .card {
     width: 150px;
     margin-right: 20px;
@@ -99,6 +104,7 @@ p {
     margin-left: 10px;
 
 }
+
 .button-container {
     display: flex;
     margin-left: 10px;
@@ -136,6 +142,5 @@ p {
     height: fit-content;
     border-radius: 50px;
 }
-
 </style>
   

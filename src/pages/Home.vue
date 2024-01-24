@@ -23,10 +23,6 @@ export default {
     WhatsPopular,
     ForFree,
   },
-  created() {
-    this.$store.dispatch("fetchTrendMovies");
-    this.$store.dispatch("fetchWhatsPopular");
-  },
 };
 </script>
 
